@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#f6f3eb">
-<title>Advocate - a quiet place to think</title>
-<link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;Advocate Assistant&quot;,&quot;short_name&quot;:&quot;Advocate&quot;,&quot;start_url&quot;:&quot;/&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#f6f3eb&quot;,&quot;theme_color&quot;:&quot;#456b5b&quot;}">
+<title>advocate.</title>
+<link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;Advocate&quot;,&quot;short_name&quot;:&quot;Advocate&quot;,&quot;start_url&quot;:&quot;/&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#f6f3eb&quot;,&quot;theme_color&quot;:&quot;#456b5b&quot;}">
 <style>
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&display=swap");
 
 :root {
     --ink: #233d36; --ink-soft: #5d7068; --paper: #f6f3eb; --paper-deep: #ede9dd;
-    --sage: #a5b8a5; --sage-pale: #dce5d8; --fern: #456b5b; --fern-deep: #315245;
+    --sage: #a5b8a5; --sage-pale: #dce5d8; --fern: #456b5b; --fern-deep: #2a4034;
     --clay: #ba7259; --line: rgba(49, 82, 69, .16);
 }
 
@@ -20,108 +20,159 @@ html { background: var(--paper); }
 body { 
     margin: 0; min-width: 320px; color: var(--ink); background: var(--paper); 
     font-family: "DM Sans", sans-serif; display: flex; flex-direction: column; 
-    height: 100vh; overflow: hidden;
+    min-height: 100vh; overflow-x: hidden;
 }
 
-button { font: inherit; -webkit-tap-highlight-color: transparent; }
+button { font: inherit; -webkit-tap-highlight-color: transparent; cursor: pointer; border: none; }
 button:focus-visible { outline: 3px solid rgba(186,114,89,.42); outline-offset: 3px; }
 
 .app-shell {
-    flex: 1; position: relative; overflow-y: auto; display: flex; flex-direction: column;
-    background: radial-gradient(circle at 11% 8%, rgba(227,187,113,.2), transparent 22rem),
-    radial-gradient(circle at 91% 76%, rgba(165,184,165,.29), transparent 30rem), var(--paper);
+    flex: 1; position: relative; padding-bottom: 60px;
+    background: radial-gradient(circle at 11% 8%, rgba(227,187,113,.15), transparent 22rem),
+    radial-gradient(circle at 91% 76%, rgba(165,184,165,.2), transparent 30rem), var(--paper);
+}
+
+.app-shell::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .12;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
 }
 
 .topbar { 
     position: relative; z-index: 1; width: min(1180px, calc(100% - 48px)); margin: 0 auto;
-    height: 86px; display: flex; align-items: center; justify-content: space-between; 
-    border-bottom: 1px solid var(--line); flex-shrink: 0;
+    height: 80px; display: flex; align-items: center; justify-content: space-between; 
 }
 
-.brand { 
-    display: inline-flex; align-items: center; gap: 11px; padding: 0; 
-    color: var(--ink); background: transparent; letter-spacing: -.02em; border: none;
-}
-.brand-word { font-size: 18px; font-weight: 700; font-family: "Playfair Display", serif; }
-.brand-word span { color: var(--clay); font-style: italic; }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 20px; letter-spacing: -0.03em; }
 .mark { 
-    display: grid; place-items: center; width: 30px; height: 30px; flex: 0 0 auto; 
+    display: grid; place-items: center; width: 32px; height: 32px;
     color: var(--fern-deep); background: rgba(220,229,216,.74); 
-    border: 1px solid rgba(49,82,69,.32); border-radius: 12px 5px 12px 5px; transform: rotate(-9deg); 
+    border: 1px solid rgba(49,82,69,.2); border-radius: 10px 4px 10px 4px; transform: rotate(-5deg); 
 }
-.mark svg { transform: rotate(9deg); width: 16px; height: 16px; }
+.mark svg { transform: rotate(5deg); width: 16px; height: 16px; fill: currentColor; }
+.top-icons { display: flex; gap: 16px; color: var(--ink-soft); }
+.top-icons svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; }
 
-main {
-    position: relative; z-index: 1; width: min(1180px, calc(100% - 48px)); margin: 0 auto;
-    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 20px 0;
+main { position: relative; z-index: 1; width: min(800px, calc(100% - 48px)); margin: 0 auto; padding-top: 20px; }
+
+.eyebrow { 
+    font-family: "DM Mono", monospace; font-size: 10px; color: var(--ink-soft); 
+    text-transform: uppercase; letter-spacing: 0.15em; display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+}
+.eyebrow::before { content: ""; display: block; width: 24px; height: 1px; background: var(--clay); }
+
+h1 { font-family: "Playfair Display", serif; font-size: 3.2rem; line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 24px 0; font-weight: 600; }
+h1 em { color: var(--fern); font-style: italic; font-weight: 500; }
+
+.intro-text { font-size: 1.1rem; line-height: 1.6; color: var(--ink-soft); margin-bottom: 24px; max-width: 90%; }
+.italic-note { font-style: italic; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 10px; font-size: 1.05rem; }
+.italic-note svg { width: 14px; height: 14px; fill: none; stroke: var(--clay); stroke-width: 1.5; margin-top: 5px; flex-shrink: 0; }
+
+.section-header { display: flex; justify-content: space-between; align-items: flex-end; margin: 48px 0 16px 0; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.section-header h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+.step-indicator { font-family: "DM Mono", monospace; font-size: 10px; color: var(--ink-soft); letter-spacing: 0.1em; }
+
+.input-card { 
+    background: #fcfbf9; border-radius: 20px 20px 20px 40px; padding: 30px; 
+    box-shadow: 0 12px 24px rgba(35, 61, 54, 0.04); position: relative; border: 1px solid rgba(49, 82, 69, 0.08);
+}
+.card-label { font-family: "DM Mono", monospace; font-size: 10px; color: var(--ink-soft); letter-spacing: 0.1em; margin-bottom: 20px; }
+.transcript-box { 
+    font-family: "Playfair Display", serif; font-size: 2rem; line-height: 1.2; color: var(--ink); 
+    border: none; background: transparent; width: 100%; min-height: 100px; resize: none; margin-bottom: 20px;
+}
+.transcript-box:focus { outline: none; }
+.card-footer { border-top: 1px solid var(--line); padding-top: 20px; }
+.card-footer p { font-size: 0.85rem; color: var(--ink-soft); margin: 0 0 16px 0; }
+
+.primary-btn { 
+    background: var(--fern-deep); color: var(--paper); padding: 14px 24px; border-radius: 30px; 
+    font-weight: 500; display: inline-flex; align-items: center; gap: 10px; transition: opacity 0.2s;
+}
+.primary-btn:active { opacity: 0.8; }
+.primary-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+.waiting-pill { 
+    font-family: "DM Mono", monospace; font-size: 10px; color: var(--clay); border: 1px solid var(--clay); 
+    padding: 6px 16px; border-radius: 20px; display: inline-block; letter-spacing: 0.1em; opacity: 0; transition: opacity 0.3s;
 }
 
-#transcript { 
-    font-size: 1.2rem; text-align: center; min-height: 60px; color: var(--ink-soft); 
-    font-family: "Playfair Display", serif; font-style: italic; margin-bottom: 20px;
-}
-
-#verdict-board {
-    background: var(--paper-deep); padding: 25px; border-radius: 16px; 
-    width: 100%; max-width: 500px; display: none; margin-bottom: 30px;
-    border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(35, 61, 54, 0.05);
-}
-
-.lens-title {
-    font-family: "DM Mono", monospace; font-size: 0.75rem; color: var(--clay);
-    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px;
-    text-align: center; border-bottom: 1px solid var(--line); padding-bottom: 10px;
-}
-
-h4 { margin: 0 0 8px 0; color: var(--fern-deep); font-family: "Playfair Display", serif; font-size: 1.1rem; }
-p { margin: 0 0 20px 0; line-height: 1.6; font-size: 0.95rem; }
-p:last-child { margin-bottom: 0; }
-
-.mic-btn {
-    width: 80px; height: 80px; border-radius: 40px; background-color: var(--fern);
-    border: none; color: var(--paper); display: flex; align-items: center; justify-content: center;
-    cursor: pointer; box-shadow: 0 8px 16px rgba(69, 107, 91, 0.2); transition: all 0.2s ease;
-}
-.mic-btn svg { width: 30px; height: 30px; fill: currentColor; }
-.mic-btn.listening {
-    background-color: var(--clay); transform: scale(0.95);
-    box-shadow: 0 0 0 8px rgba(186, 114, 89, 0.2);
-}
+#results-area { display: none; margin-top: 20px; }
+.result-block { margin-bottom: 32px; }
+.result-block h4 { font-family: "DM Mono", monospace; font-size: 11px; color: var(--clay); text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 12px 0; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.result-block p { font-size: 1.05rem; line-height: 1.6; margin: 0; }
 </style>
 </head>
 <body>
     <div class="app-shell">
         <header class="topbar">
             <div class="brand">
-                <div class="mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 3.8l7.2 14.2H4.8L12 5.8z"/></svg></div>
-                <div class="brand-word">Advocate <span>Order</span></div>
+                <div class="mark"><svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.5 13.5 5.5 19c0-5 3.5-8 9.5-9.5V13l5-4-5-4v3z"/></svg></div>
+                advocate.
+            </div>
+            <div class="top-icons">
+                <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M9 9a3 3 0 116 0c0 2-3 3-3 3m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
         </header>
 
         <main>
-            <div id="transcript">Tap to speak your scenario or dilemma...</div>
-            
-            <div id="verdict-board">
-                <div class="lens-title">Second-Order Analysis</div>
-                <h4>The Hidden Variable</h4>
-                <p id="out-hidden"></p>
-                <h4>The Ripple Effect</h4>
-                <p id="out-second"></p>
-                <h4>The Pivot</h4>
-                <p id="out-pivot"></p>
+            <div class="eyebrow">A THINKING PARTNER FOR THE IN-BETWEEN</div>
+            <h1>Let's make a little <em>room</em> for the thought.</h1>
+            <p class="intro-text">Say the difficult thing out loud. Advocate will sit with it from three angles — without rushing you toward a tidy answer.</p>
+            <div class="italic-note">
+                <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.5 13.5 5.5 19c0-5 3.5-8 9.5-9.5z"/></svg>
+                <span>You can change your mind here. That is part of the process.</span>
             </div>
+
+            <div class="section-header">
+                <h3>What's taking up space?</h3>
+                <span class="step-indicator">01 / REFLECT</span>
+            </div>
+
+            <div class="input-card">
+                <div class="card-label">YOUR IDEA, IN YOUR OWN WORDS</div>
+                <div id="transcript" class="transcript-box" contenteditable="true">Tap to type, or use the mic below...</div>
+                <div class="card-footer">
+                    <p>Nothing is saved unless you choose to keep it.</p>
+                    <button class="primary-btn" id="micBtn">
+                        <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                        <span id="btnText">think it through</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-top: 60px;">
+                <h3 style="font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-soft); letter-spacing: 0.1em; font-weight: 400;">YOUR THREE ANGLES</h3>
+            </div>
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 600; margin: 0 0 16px 0;">We'll look from three sides.</h2>
+            <p style="color: var(--ink-soft); margin-bottom: 24px;">When you are ready, speak or write a little more and we will begin.</p>
             
-            <button class="mic-btn" id="micBtn">
-                <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
-            </button>
+            <div class="waiting-pill" id="statusPill">WAITING</div>
+
+            <div id="results-area">
+                <div class="result-block">
+                    <h4>The Hidden Variable</h4>
+                    <p id="out-hidden"></p>
+                </div>
+                <div class="result-block">
+                    <h4>The Ripple Effect</h4>
+                    <p id="out-second"></p>
+                </div>
+                <div class="result-block">
+                    <h4>The Pivot</h4>
+                    <p id="out-pivot"></p>
+                </div>
+            </div>
         </main>
     </div>
 
     <script>
         const micBtn = document.getElementById('micBtn');
-        const transcriptDiv = document.getElementById('transcript');
-        const verdictBoard = document.getElementById('verdict-board');
+        const btnText = document.getElementById('btnText');
+        const transcriptBox = document.getElementById('transcript');
+        const statusPill = document.getElementById('statusPill');
+        const resultsArea = document.getElementById('results-area');
         
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
@@ -129,36 +180,51 @@ p:last-child { margin-bottom: 0; }
         recognition.interimResults = true;
         let isListening = false;
 
-        micBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startListening(); });
-        micBtn.addEventListener('touchend', (e) => { e.preventDefault(); stopListening(); });
-        micBtn.addEventListener('mousedown', startListening);
-        micBtn.addEventListener('mouseup', stopListening);
+        // Clear placeholder text on focus
+        transcriptBox.addEventListener('focus', function() {
+            if (this.innerText.includes("Tap to type")) this.innerText = "";
+        });
+
+        // Trigger analysis if user types and clicks button
+        micBtn.addEventListener('click', () => {
+            if (transcriptBox.innerText.trim() !== "" && !transcriptBox.innerText.includes("Tap to type")) {
+                statusPill.innerText = "ANALYZING...";
+                statusPill.style.opacity = "1";
+                sendToGemini(transcriptBox.innerText);
+            } else {
+                startListening();
+            }
+        });
 
         function startListening() {
             if (isListening) return;
-            recognition.start(); isListening = true;
-            micBtn.classList.add('listening');
-            transcriptDiv.innerText = "Listening...";
-            verdictBoard.style.display = 'none';
-        }
-
-        function stopListening() {
-            if (!isListening) return;
-            recognition.stop(); isListening = false;
-            micBtn.classList.remove('listening');
-            transcriptDiv.innerText = "Advocate is reflecting...";
+            try {
+                recognition.start(); isListening = true;
+                btnText.innerText = "listening...";
+                transcriptBox.innerText = "";
+                statusPill.style.opacity = "0";
+                resultsArea.style.display = "none";
+            } catch(e) {}
         }
 
         recognition.onresult = (event) => {
             const transcript = Array.from(event.results).map(result => result[0].transcript).join('');
-            transcriptDiv.innerText = `"${transcript}"`;
-            if (event.results[0].isFinal) sendToGemini(transcript);
+            transcriptBox.innerText = transcript;
+            if (event.results[0].isFinal) {
+                isListening = false;
+                btnText.innerText = "think it through";
+                statusPill.innerText = "ANALYZING...";
+                statusPill.style.opacity = "1";
+                sendToGemini(transcript);
+            }
         };
+
+        recognition.onend = () => { isListening = false; btnText.innerText = "think it through"; };
 
         async function sendToGemini(idea) {
             try {
                 // ⚠️ IMPORTANT: Paste your actual Google API key below!
-                const API_KEY = "AQ.Ab8RN6JRt4vY769vC6OMVsLSR8shY7a041y3y75HLiOcBtiWJQ"; 
+                const API_KEY = "AQ.Ab8RN6Ix2-4_Z-TESbq4icHhiR-4D5TesrGfoKAuxxdxlWAu5w"; 
                 
                 const prompt = `You are the 'Second-Order' analytical engine inside the Advocate app. You help humans see past their immediate biases.\nThe user's real-world scenario/plan is: "${idea}"\n\nAnalyze this universally, whether it is a business strategy, personal finance, technical architecture, or daily logistics.\nRespond ONLY in valid JSON format with three exact keys. Keep answers highly insightful, pragmatic, and under 3 sentences each.\n\n{\n  "hidden_variable": "Identify the one critical real-world factor or blindspot the user is likely ignoring.",\n  "second_order": "Predict the most likely 3-to-6 month ripple effect of this action that isn't immediately obvious.",\n  "pivot": "Provide a concrete micro-adjustment or strategy to execute this plan better with lower risk."\n}`;
 
@@ -178,10 +244,13 @@ p:last-child { margin-bottom: 0; }
                 document.getElementById('out-hidden').innerText = result.hidden_variable;
                 document.getElementById('out-second').innerText = result.second_order;
                 document.getElementById('out-pivot').innerText = result.pivot;
-                verdictBoard.style.display = 'block';
+                
+                statusPill.innerText = "COMPLETE";
+                resultsArea.style.display = "block";
                 
             } catch (error) {
-                transcriptDiv.innerText = "Failed to connect to AI engine. Did you insert your API key?";
+                statusPill.innerText = "ERROR";
+                transcriptBox.innerText = "Failed to connect to AI engine. Check your API key.";
             }
         }
     </script>

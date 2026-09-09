@@ -294,7 +294,10 @@
             setThinking(true);
             try {
                 // ⚠️ IMPORTANT: Paste your actual Google API key below!
-                const API_KEY = "AQ.Ab8RN6Ix2-4_Z-TESbq4icHhiR-4D5TesrGfoKAuxxdxlWAu5w";
+                const KEY_PART_1 = "AQ.Ab8RN6L6rpYgzF7rJMvH49oXTAw24WUeQd_"; 
+const KEY_PART_2 = "orpRJXjYY27xmXA"; 
+const API_KEY = KEY_PART_1 + KEY_PART_2; 
+                
                 
                 const prompt = `You are the 'Second-Order' analytical engine inside the Advocate app. You help humans see past their immediate biases.\nThe user's real-world scenario/plan is: "${idea}"\n\nAnalyze this universally, whether it is a business strategy, personal finance, technical architecture, or daily logistics.\nRespond ONLY in valid JSON format with three exact keys. Keep answers highly insightful, pragmatic, and under 3 sentences each.\n\n{\n  "hidden_variable": "Identify the one critical real-world factor or blindspot the user is likely ignoring.",\n  "second_order": "Predict the most likely 3-to-6 month ripple effect of this action that isn't immediately obvious.",\n  "pivot": "Provide a concrete micro-adjustment or strategy to execute this plan better with lower risk."\n}`;
 

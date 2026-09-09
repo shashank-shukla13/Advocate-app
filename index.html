@@ -318,7 +318,7 @@ const API_KEY = KEY_PART_1 + KEY_PART_2;
                 voiceStatus.textContent = 'A little more room';
                 voiceHint.textContent = 'Keep the useful part. Leave the rest.';
             } catch (error) {
-                emptyVerdict('The board could not complete that reflection. Did you add your API key?');
+                emptyVerdict('Google API Error: ' + error.message);
                 voiceStatus.textContent = 'The thought is still here';
                 voiceHint.textContent = 'Check your connection and try once more.';
                 showToast('The board could not complete that reflection.');
